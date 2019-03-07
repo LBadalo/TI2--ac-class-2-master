@@ -1,0 +1,139 @@
+import { Notes } from "mdx-deck";
+
+export { swiss as theme } from "mdx-deck/themes";
+
+# Aula 2
+
+## Classes, Eventos, e Atualizações em React
+
+---
+
+## Componentes
+
+---
+
+Componentes em React podem ser funções:
+
+```javascript
+function Exemplo(props) {
+    return React.createElement("p", null, "Olá!");
+}
+```
+
+Para uma função poder ser usada como componente React, tem que:
+
+-   O nome deve começar com letra MAIÚSCULA (como uma classe)
+-   Deve recebe um parâmetro, `props`, que é SEMPRE um objeto
+-   Deve devolver um `React.Element`
+
+---
+
+Mas também podem ser classes:
+
+```javascript
+class Exemplo extends React.Component {
+    render() {
+        return React.createElement("p", null, "Olá!");
+    }
+}
+```
+
+Uma classe para poder ser usada como componente React, tem que:
+
+-   Herdar da classe `React.Component`
+-   Ter um método `render()`, sem parâmetros, que devolve um `React.Element`
+-   Para se aceder às `props`, usa-se o `this`
+
+---
+
+### Diferenças
+
+Classes são mais complexas, mas permitem usar todas as funcionalidades do React, como:
+
+-   Eventos
+-   Atualizações
+-   Referências
+
+Funções são mais simples, mas não permitem usar as funcionalidades acima.
+
+---
+
+### Então, qual devo usar?
+
+**Regra geral:** se o componente que se vai fazer só precisa de mostrar dados, usa-se uma função. Caso contrário, usa-se uma classe.
+
+Se se está com dúvidas, usa-se uma classe.
+
+Seja como for, o React é flexível o suficiente para permitir a alteração (geralmente, de função para classe).
+
+---
+
+## Eventos
+
+---
+
+Tal como o DOM, o React suporta eventos, através de:
+
+-   Props
+-   Funções
+
+A forma de definir os event listeners é muito semelhante ao que se faz no HTML e JavaScript.
+
+---
+
+### (Para relembrar) Em HTML (evitar)
+
+```html
+<button type="button" onclick="fazAlgumaCoisa(this)">
+    Exemplo
+</button>
+```
+
+O botão acima vai chamar a seguinte função quando é clicado (assumindo que a função é global):
+
+```javascript
+function fazAlgumaCoisa(btn) {
+    alert("Fiz alguma coisa...");
+}
+```
+
+---
+
+### (Para relembrar) Em HTML (evitar)
+
+**Atenção:** não é recomendada esta abordagem:
+
+-   As funções têm que ser globais para isto funcionar
+-   Não se devem fazer funções (ou variáveis) globais
+-   Está-se a poluir o HTML com JavaScript
+
+---
+
+### Em React
+
+```javascript
+class Exemplo extends React.Component {
+    render() {
+        return React.createElement(
+            "button",
+            {
+                type: "button",
+                onClick: (evt) => this.handleClick(evt)
+            },
+            "Exemplo"
+        );
+    }
+
+    handleClick(evt) {
+        alert("Clicou-se no botão. 'evt' é o evento do click.");
+    }
+}
+```
+
+---
+
+### Em React
+
+-   Usou-se a prop `onClick` para definir o event listener do botão.
+-   A função `handleClick` da classe é chamada, e recebe um parâmetro com o evento.
+-   Podemos fazer os nossos próprios eventos.
